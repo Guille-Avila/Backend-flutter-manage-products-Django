@@ -82,12 +82,6 @@ class UserRegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-@api_view(['GET'])
-def check_email(request):
-    email = request.query_params.get('email', '')
-    users = User.objects.filter(email=email)
-    exists = True if users else False
-    return response.Response({'exists': exists})
 
 class EmailPasswordReset(generics.GenericAPIView):
     serializer_class = EmailPasswordResetSerializer
