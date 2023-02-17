@@ -138,5 +138,3 @@ class ResetPasswordAPI(generics.GenericAPIView):
             {"message": "Password reset complete"},
             status=status.HTTP_200_OK,
         )
-
-        
