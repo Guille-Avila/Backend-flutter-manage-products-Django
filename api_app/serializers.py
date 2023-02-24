@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Producto, Client, Venta, VentaProducto, Person
+from .models import DetailSale, Producto, Client, Sale, Person
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 # paquetes para enviar email para restaurar password
@@ -18,18 +18,22 @@ class ClientSerializer(serializers.ModelSerializer):
         model = Client
         fields = '__all__'
 
-class VentaSerializer(serializers.ModelSerializer):
+
+
+class SaleSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Venta
+        model = Sale
         fields = '__all__'
         extra_kwargs = {
-            'fecha': {'read_only': True, 'required': False},
-            # 'fecha': {'read_only': True},
-        }        
-class VentaProductoSerializer(serializers.ModelSerializer):
+            'date': {'read_only': True, 'required': False},
+        }       
+
+class DetailSaleSerializer(serializers.ModelSerializer):
     class Meta:
-        model = VentaProducto
+        model = DetailSale
         fields = '__all__'
+
+        
 
 class PersonSerializer(serializers.ModelSerializer):
     class Meta:
@@ -81,3 +85,5 @@ class ResetPasswordSerializer(serializers.Serializer):
         user.set_password(password)
         user.save()
         return data
+
+

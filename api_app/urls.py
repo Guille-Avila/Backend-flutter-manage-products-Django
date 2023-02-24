@@ -1,13 +1,13 @@
 from rest_framework import routers
-from .views import ProductoViewSet, ClientViewSet, VentaViewSet, VentaProductoViewSet,UserViewSet, LogoutView , LoginView, UserRegisterView, EmailPasswordReset, ResetPasswordAPI
+from .views import DetailSaleViewSet, ProductoViewSet, ClientViewSet, SaleViewSet,UserViewSet, LogoutView , LoginView, UserRegisterView, EmailPasswordReset, ResetPasswordAPI
 from rest_framework.authtoken.views import obtain_auth_token
 from django.urls import path
 
 router  = routers.DefaultRouter()
 router.register('producto', ProductoViewSet)
 router.register('cliente', ClientViewSet)
-router.register('venta', VentaViewSet)
-router.register('ventaproducto',VentaProductoViewSet)
+router.register('sale', SaleViewSet)
+router.register('detail_sale', DetailSaleViewSet)
 router.register('user', UserViewSet)
 
 urlpatterns = [

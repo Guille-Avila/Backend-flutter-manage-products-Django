@@ -1,7 +1,7 @@
 from django.conf import settings
 from rest_framework import viewsets, permissions, generics
-from .models import Producto, Client, Venta, VentaProducto
-from .serializers import ProductoSerializer, ClientSerializer, VentaSerializer, VentaProductoSerializer, UserSerializer, EmailPasswordResetSerializer, ResetPasswordSerializer
+from .models import DetailSale, Producto, Client, Sale
+from .serializers import DetailSaleSerializer, ProductoSerializer, ClientSerializer, SaleSerializer, UserSerializer, EmailPasswordResetSerializer, ResetPasswordSerializer
 from rest_framework import status, views, authentication
 from rest_framework.response import Response
 from django.contrib.auth.models import User
@@ -21,24 +21,25 @@ class ProductoViewSet(viewsets.ModelViewSet):
     queryset = Producto.objects.all()
     serializer_class = ProductoSerializer
     permission_classes = [permissions.AllowAny]
-    # permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    # authentication_classes = [authentication.BasicAuthentication]
     
 class ClientViewSet(viewsets.ModelViewSet):
   queryset = Client.objects.all()  
   permission_classes = [permissions.AllowAny]
   serializer_class = ClientSerializer
 
-class VentaViewSet(viewsets.ModelViewSet):
-  queryset = Venta.objects.all()
-  permission_classes = [permissions.IsAuthenticated]
-  authentication_classes = [authentication.TokenAuthentication,]
-  serializer_class = VentaSerializer
 
-class VentaProductoViewSet(viewsets.ModelViewSet):
-  queryset = VentaProducto.objects.all()
+
+class SaleViewSet(viewsets.ModelViewSet):
+  queryset = Sale.objects.all()
   permission_classes = [permissions.AllowAny]
-  serializer_class = VentaProductoSerializer
+  serializer_class = SaleSerializer
+
+class DetailSaleViewSet(viewsets.ModelViewSet):
+  queryset = DetailSale.objects.all()
+  permission_classes = [permissions.AllowAny]
+  serializer_class = DetailSaleSerializer
+
+
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
@@ -96,10 +97,7 @@ class EmailPasswordReset(generics.GenericAPIView):
         if user:
             encoded_pk = urlsafe_base64_encode(force_bytes(user.pk))
             token = PasswordResetTokenGenerator().make_token(user)
-            # reset_url = reverse(
-            #     "reset-password",
-            #     kwargs={"encoded_pk": encoded_pk, "token": token},
-            # )
+
             reset_link = f"http://localhost:8080/restart-password/?pk={encoded_pk}&token={token}"
 
             # send the rest_link as mail to the user.
